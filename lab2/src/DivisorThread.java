@@ -1,4 +1,4 @@
- class DivisorThread extends Thread {
+class DivisorThread extends Thread {
     private static int sumOfDivisors = 0;
     private int startNumber;
     private int endNumber;
@@ -36,5 +36,4 @@
         return sumOfDivisors;
     }
 }
-
 
