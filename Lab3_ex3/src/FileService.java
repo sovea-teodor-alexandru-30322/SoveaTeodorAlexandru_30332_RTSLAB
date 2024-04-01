@@ -21,7 +21,7 @@ public class FileService {
     }
 
     public void write(String msg) {
-        synchronized(out) {
+        synchronized(this) {
             Date date = new Date(System.currentTimeMillis());
             out.println("Date: " + date);
             out.println("Message: " + msg);
@@ -30,7 +30,7 @@ public class FileService {
     }
 
     public String read() throws IOException {
-        synchronized(in) {
+        synchronized(this) {
             String iterator, last = "no message to read";
             while ((iterator = in.readLine()) != null) {
                 last = new Date(System.currentTimeMillis()) + " - " + iterator;
