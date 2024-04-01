@@ -11,6 +11,9 @@ class DivisorThread extends Thread {
 
     public void run() {
         System.out.println(Thread.currentThread().getName() + " has entered the run() method");
+        if(t!=null) {
+            t.join();
+        }
         int divisorSum = calculateDivisors(startNumber, endNumber);
         synchronized (DivisorThread.class) {
             sumOfDivisors += divisorSum;
