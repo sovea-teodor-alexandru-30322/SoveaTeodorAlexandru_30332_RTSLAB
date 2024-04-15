@@ -1,0 +1,18 @@
+@startuml
+
+class ExecutionThread
+ExecutionThread : monitor : Integer
+ExecutionThread : sleep_min : int
+ExecutionThread : sleep_max : int
+ExecutionThread : activity_min : int
+ExecutionThread : activity_max : int
+ExecutionThread : run() : void
+
+class Thread
+class Main
+class Integer
+Thread <|-- ExecutionThread
+Integer --> ExecutionThread
+ExecutionThread --* Main
+
+@enduml

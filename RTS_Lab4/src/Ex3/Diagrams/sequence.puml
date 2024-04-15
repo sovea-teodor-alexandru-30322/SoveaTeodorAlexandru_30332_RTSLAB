@@ -1,0 +1,48 @@
+@startuml
+
+== Thread 1 ==
+
+activate Thread1
+activate Monitor1
+Thread1 -> Thread1 : Do work 2-4 seconds
+activate Thread1
+deactivate Thread1
+Thread1 -> Monitor1: acquire
+Thread1 -> MonitorSh : acquire
+activate MonitorSh
+Thread1 -> Thread1: Do work (2-4 seconds)
+activate Thread1
+deactivate Thread1
+Thread1 -> MonitorSh : release
+deactivate MonitorSh
+Thread1 -> Thread1: Sleep (4 seconds)
+activate Thread1
+deactivate Thread1
+Thread1 -> Monitor1: release
+deactivate Monitor1
+deactivate Thread1
+
+== Thread 2 ==
+
+activate Thread2
+activate Monitor2
+Thread2 -> Thread2 : Do work 3-5 seconds
+activate Thread2
+deactivate Thread2
+Thread2 -> Monitor2: acquire
+Thread2 -> MonitorSh : acquire
+activate MonitorSh
+Thread2 -> Thread2: Do work (5-7 seconds)
+activate Thread2
+deactivate Thread2
+Thread2 -> MonitorSh : release
+deactivate MonitorSh
+Thread2 -> Thread2: Sleep (5 seconds)
+activate Thread2
+deactivate Thread2
+Thread2 -> Monitor2: release
+deactivate Monitor2
+deactivate Thread2
+
+
+@enduml

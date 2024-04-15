@@ -5,7 +5,7 @@ class DivisorThread extends Thread {
 
     DivisorThread(String name, int start, int end) {
         super(name);
-        this.startNumber = start;
+        this.startNumber = start ;
         this.endNumber = end;
     }
 

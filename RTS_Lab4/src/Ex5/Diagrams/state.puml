@@ -1,0 +1,26 @@
+@startuml
+
+[*] -> Running
+
+state Running{
+
+    [*] -> State1
+    State1 -> State2 : Sleep for 7
+    State2 : Do work for 2-3
+    State2 -> State10 : Notify Thread 2 and 3
+    --
+
+    [*] -> State3
+    State3 -> State4 : Wait for notify on monitor 1
+    State4 : Do work for 3-5 seconds
+    --
+    [*] -> State5
+    State5 -> State6 : Wait for notify on monitor 2
+    State6 : Do work for 4-6 seconds
+}
+Running -> JoinState
+Running -> JoinState
+Running -> JoinState
+JoinState -> [*]
+
+@enduml

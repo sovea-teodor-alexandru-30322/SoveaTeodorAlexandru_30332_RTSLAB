@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+activate Main
+
+Main -> ExecutionThread1 : start()
+activate ExecutionThread1
+
+Main -> ExecutionThread2 : start()
+activate ExecutionThread2
+
+ExecutionThread1 -> ExecutionThread1 : enterState1
+activate ExecutionThread1
+
+ExecutionThread2 -> ExecutionThread2 : enterState1
+activate ExecutionThread2
+
+ExecutionThread1 -> ExecutionThread1 : sleep
+ExecutionThread2 -> ExecutionThread2 : sleep
+
+activate Monitor
+ExecutionThread1 <- Monitor : acquire
+ExecutionThread1 -> ExecutionThread1 : doWork
+ExecutionThread1 -> Monitor : release
+
+ExecutionThread2 <- Monitor : acquire
+ExecutionThread2 -> ExecutionThread2 : doWork
+ExecutionThread2 -> Monitor : release
+
+ExecutionThread1 -> ExecutionThread1 : enterEndState
+ExecutionThread2 -> ExecutionThread2 : enterEndState
+@enduml

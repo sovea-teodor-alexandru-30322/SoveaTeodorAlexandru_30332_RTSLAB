@@ -1,0 +1,54 @@
+@startuml
+
+== Thread 1 ==
+
+loop while true
+    Thread1 -> Monitor : acquire
+    activate Thread1
+    activate Monitor
+    Thread1 -> Thread1 : Do work (3-6 seconds)
+    activate Thread1
+    deactivate Thread1
+    Thread1 -> Monitor : release
+    deactivate Monitor
+    Thread1 -> Thread1 : sleep 5
+    activate Thread1
+    deactivate Thread1
+end
+deactivate Thread1
+
+
+== Thread 2 ==
+loop while true
+    Thread2 -> Monitor : acquire
+    activate Thread2
+    activate Monitor
+    Thread2 -> Thread2 : Do work (4-7 seconds)
+    activate Thread2
+    deactivate Thread2
+    Thread2 -> Monitor : release
+    deactivate Monitor
+    Thread2 -> Thread2 : sleep 3
+    activate Thread2
+    deactivate Thread2
+end
+deactivate Thread2
+
+== Thread 3 ==
+
+loop while true
+    Thread3 -> Monitor : acquire
+    activate Thread3
+    activate Monitor
+    Thread3 -> Thread3 : Do work (5-7 seconds)
+    activate Thread3
+    deactivate Thread3
+    Thread3 -> Monitor : release
+    deactivate Monitor
+    Thread3 -> Thread3 : sleep 6
+    activate Thread3
+    deactivate Thread3
+end
+deactivate Thread3
+
+@enduml
