@@ -22,7 +22,7 @@ class ExecutionThread extends Thread {
     }
 
     public void run() {
-        while (true) {
+
             System.out.println(this.getName() + " - STATE 1");
 
             if (this.getName().equals("Thread-2")) {
@@ -58,8 +58,7 @@ class ExecutionThread extends Thread {
                 }
 
             } else {
-                try {
-                    semaphore2.acquire();
+
 
                     {
                         System.out.println(this.getName() + " - STATE 2");
@@ -75,12 +74,8 @@ class ExecutionThread extends Thread {
                             e.printStackTrace();
                         }
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    semaphore2.release();
                 }
-            }
+
             System.out.println(this.getName() + " - STATE 3");
             System.out.println(this.getName() + " is waiting at the semaphore");
             try {
@@ -92,18 +87,22 @@ class ExecutionThread extends Thread {
             }
         }
     }
-}
+
 
 public class Main {
     public static void main(String[] args) {
-        CyclicBarrier barrier = new CyclicBarrier(3);
+        CyclicBarrier barrier = new CyclicBarrier(4);
         Semaphore semaphore1 = new Semaphore(1);
         Semaphore semaphore2 = new Semaphore(1);
-        ExecutionThread t1 = new ExecutionThread(barrier, semaphore1, semaphore2, 0, 4, 2, 4);
-        ExecutionThread t2 = new ExecutionThread(barrier, semaphore1, semaphore2, 0, 3, 3, 6);
-        ExecutionThread t3 = new ExecutionThread(barrier, semaphore1, semaphore2, 0, 5, 2, 5);
-        t1.start();
-        t2.start();
-        t3.start();
+        while(true) {
+            ExecutionThread t1 = new ExecutionThread(barrier, semaphore1, semaphore2, 0, 4, 2, 4);
+            ExecutionThread t2 = new ExecutionThread(barrier, semaphore1, semaphore2, 0, 3, 3, 6);
+            ExecutionThread t3 = new ExecutionThread(barrier, semaphore1, semaphore2, 0, 5, 2, 5);
+            t1.start();
+            t2.start();
+            t3.start();
+            barrier.await();
+            barrier.reset();
+        }
     }
 }

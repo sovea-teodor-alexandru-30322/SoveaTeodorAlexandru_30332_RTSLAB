@@ -1,0 +1,67 @@
+@startuml
+
+Main -> Barrier : init()
+activate Barrier
+loop forever
+
+    activate Main
+    Main -> Thread1 : start()
+    activate Thread1
+    Main -> Thread2 : start()
+    activate Thread2
+
+
+    Thread1 -> Thread1 : do work for 2-4
+    activate Thread1
+    deactivate Thread1
+    Thread1 -> Lock1 : Acquire
+    activate Lock1
+    Thread1 -> Thread1 : do work for 4-6
+    activate Thread1
+    deactivate Thread1
+    Thread1 -> Lock2 : TryLock()
+    alt lock2 acquired
+        activate Lock2
+    end
+    Thread1 -> Thread1 : sleep for 4
+    activate Thread1
+    deactivate Thread1
+    Thread1 <-- Lock1 : Release
+    deactivate Lock1
+    Thread1 <-- Lock2 : Release
+    deactivate Lock2
+    Thread1 -> Thread1 : Wait for Thread2
+    activate Thread1
+    deactivate Thread1
+
+    Thread2 -> Thread2 : do work for 3-5
+    activate Thread2
+    deactivate Thread2
+    Thread2 -> Lock2 : Acquire
+    activate Lock2
+    Thread2 -> Thread2 : do work for 5-7
+    activate Thread2
+    deactivate Thread2
+    Thread2 -> Lock1 : TryLock()
+    alt lock1 acquired
+        activate Lock1
+    end
+    activate Lock1
+    Thread2 -> Thread2 : sleep for 5
+    activate Thread2
+    deactivate Thread2
+    Thread2 <-- Lock2 : Release
+    deactivate Lock2
+    Thread2 <-- Lock1 : Release
+    deactivate Lock1
+    Thread2 -> Thread2 : Wait for Thread1
+    activate Thread2
+    deactivate Thread2
+
+    Main -> Barrier : await()
+    Main -> Barrier : reset()
+    deactivate Barrier
+
+end loop
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+
+[*] -> Running
+state Running{
+
+    state Fork1 <<fork>>
+    [*] -> StartState
+    StartState -> Fork1
+    Fork1 -> State1
+    State1 : Do work 4-6
+    Fork -> State2
+    State2 : Do work 5-7
+    State1 -> State3 : Acquire monitor1
+    State2 -> State4 : Acquire monitor2
+    State3 : Do work 4-6
+    State4 : Do work 5-7
+
+    state c1 <<condition>>
+    state c2 <<condition>>
+    State3 -> c1
+    State4 -> c2
+    c1 -> State5 : Monitor2 free
+    State5 -> State7 : Sleep 4
+    c1 -> State7 : Monitor2 unavailable
+
+    c2 -> State6 : Monitor1 free
+    State6 -> State8 : Sleep 5
+    c2 -> State8 : Monitor1 unavailable
+    state Fork2 <<fork>>
+    State7 -> Fork2
+    State8 -> Fork2
+    Fork2 -> StartState
+}
+
+Running -> [*]
+
+@enduml

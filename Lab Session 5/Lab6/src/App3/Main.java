@@ -69,6 +69,7 @@ class ExecutionSecThread extends Thread {
 
     public void run() {
         System.out.println(this.getName() + " -STATE 1");
+        thread.sleep(5*500);
         synchronized (monitor) {
             try {
                 monitor.wait();
